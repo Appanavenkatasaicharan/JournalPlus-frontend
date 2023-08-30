@@ -1,0 +1,13 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow:-moz-hidden-unscrollable;
+}
+
+.app-container {
+  display: flex;
+}
+.content-container{
+  flex: 1;
+}

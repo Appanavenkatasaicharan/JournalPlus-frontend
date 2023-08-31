@@ -5,9 +5,11 @@ import Sidebar from './components/Sidebar';
 import JournalPage from './components/JournalPage';
 import CalendarPage from './components/CalendarPage';
 import TasksPage from './components/TasksPage';
+import AuthPage from './components/AuthPage';
 
 function App() {
   return (
+      // <AuthPage />
       <div className="app-container">
       <Router>
       <Sidebar />

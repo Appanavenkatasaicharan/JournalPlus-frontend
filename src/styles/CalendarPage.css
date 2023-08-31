@@ -1,108 +1,151 @@
 /* CalendarPage.css */
 .calendar-page {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-  }
-  
-  .calendar-container {
-    top: 0;
-    position: sticky;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
 
-  }
-  
-  .custom-calendar {
-    max-width: 100%; /* Limit calendar width */
-    font-family: inherit; /* Use the same font as the rest of your app */
-  }
-  
-  .react-calendar__navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .react-calendar__month-view__days {
-    padding: 10px; /* Add padding between cells */
-  }
-  
-  .react-calendar__tile {
-    border-radius: 50%; /* Make date cells circular */
-    margin: 2px; /* Add a small gap between date cells */
-  }
-  
-  .event-list {
-    flex: 1;
-    padding-left: 20px; /* Add some space between the columns */
-    background-color: #f5f5f5; /* Background color for event list */
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  .event-list h2 {
-    margin-bottom: 10px;
-    color: #3498db; /* Text color in shade of blue */
-  }
-  
-  .event-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .event-list li {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #ffffff; /* Background color for each event */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .event-list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .add-event-button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .event-item {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #ffffff; /* Background color for each event */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-  }
-  
-  .event-icons {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-  
-  .trash-icon,
-  .edit-icon {
-    margin-right: 5px;
-    cursor: pointer;
-    color: #3498db;
-  }
-  
-  
+.calendar-container {
+  top: 0;
+  position: sticky;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+.custom-calendar {
+  max-width: 100%; /* Limit calendar width */
+  font-family: inherit; /* Use the same font as the rest of your app */
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-calendar__month-view__days {
+  padding: 10px; /* Add padding between cells */
+}
+
+.react-calendar__tile {
+  border-radius: 50%; /* Make date cells circular */
+  margin: 2px; /* Add a small gap between date cells */
+}
+
+.event-list {
+  flex: 1;
+  padding-left: 20px; /* Add some space between the columns */
+  background-color: #f5f5f5; /* Background color for event list */
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.event-list h2 {
+  margin-bottom: 10px;
+  color: #3498db; /* Text color in shade of blue */
+}
+
+.event-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.event-list li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff; /* Background color for each event */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.add-event-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff; /* Background color for each event */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.event-icons {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.trash-icon,
+.edit-icon {
+  margin-right: 5px;
+  cursor: pointer;
+  color: #3498db;
+}
+
+.deadline-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff; /* Background color for each deadline */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Align items to the end */
+  align-items: center;
+}
+
+.deadline-item h3 {
+  margin: 0;
+  font-size: 14px; /* Adjust font size */
+}
+
+.deadline-item p {
+  margin: 0;
+  font-size: 12px; /* Adjust font size */
+}
+
+.trash-icon {
+  margin-left: 10px; /* Add some spacing from the title */
+  color: #e74c3c; /* Use a red color for the trash icon */
+  cursor: pointer;
+}
+
+.deadlines-header {
+  display: flex;
+  position: relative;
+  display: inline-block;
+}
+
+.add-icon {
+  top: 0;
+  right: 100;
+  transform: translate(50%, -50%);
+  color: #2766ae; /* Use a green color for the plus icon */
+  background-color: #f0f0f0; /* Background color for the plus icon */
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}

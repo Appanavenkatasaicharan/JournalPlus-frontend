@@ -1,0 +1,89 @@
+/* TasksPage.css */
+.tasks-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Background color for the page */
+  }
+  
+  .tasks-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 75vh;
+    width: 70%;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
+    scrollbar-width: none; /* Hide standard scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide standard scrollbar for IE/Edge */
+    overflow-x: hidden;
+  }
+  
+  .tasks-heading {
+    /* top: 0;
+    position: sticky; */
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .task-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .completed {
+    text-decoration: line-through; /* Apply strike-through style for completed tasks */
+    color: #999; /* Change color for completed tasks */
+  }
+  
+/* TasksPage.css */
+/* ... (existing styles) */
+
+.checkbox {
+    margin-right: 10px;
+    color: #3498db; /* Color for the checkbox icon */
+    cursor: pointer;
+  }
+  
+  /* Additional styling based on your design */
+  
+  
+  .task-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #3498db; /* Color for the icon */
+  }
+  
+  .add-task-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #3498db; /* Use a blue color for the button */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white; /* Icon color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

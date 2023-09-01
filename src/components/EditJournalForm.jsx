@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const EditJournalForm = ({ isOpen, onClose, onSubmit,journal }) => {
-  console.log(journal)
   const [title, setTitle] = useState(journal.title);
   const [description, setDescription] = useState(journal.description);
   const [mood, setMood] = useState(journal.mood);
+
+  useEffect(
+    ()=>{
+      setTitle(journal.title);
+      setDescription(journal.description);
+      setMood(journal.mood);
+    },[journal]
+  )
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Call the onSubmit function and pass the form data
     onSubmit({ title, description, mood });
     // Clear form fields
-    setTitle('');
-    setDescription('');
-    setMood('Happy');
   };
 
   if (!isOpen) {
@@ -28,12 +32,12 @@ const EditJournalForm = ({ isOpen, onClose, onSubmit,journal }) => {
           <input
             type="text"
             placeholder="Title"
-            value={journal.title}
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <textarea
             placeholder="Description"
-            value={journal.description}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <select value={mood} onChange={(e) => setMood(e.target.value)}>
@@ -44,7 +48,7 @@ const EditJournalForm = ({ isOpen, onClose, onSubmit,journal }) => {
             <option value="Anxious">Anxious</option>
           </select>
           <div className="form-buttons">
-            <button type="submit">Create</button>
+            <button type="submit">Edit</button>
             <button type="button" onClick={onClose}>Cancel</button>
           </div>
         </form>

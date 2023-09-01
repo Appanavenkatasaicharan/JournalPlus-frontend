@@ -1,27 +1,46 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import '../styles/AuthPage.css';
+import LoadingPage from './LoadingPage';
 
-const AuthPage = () => {
+const AuthPage = ({setToken,setName}) => {
   const [isSignup, setIsSignup] = useState(true); // Tracks whether to show signup or signin form
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading,setIsLoading] = useState(false)
 
   const handleFormSwitch = () => {
     setIsSignup(!isSignup);
   };
 
   const handleSignup = () => {
-    // Implement signup logic here
-    console.log('Signup:', username, email, password);
+    setIsLoading(true)
+    axios.post('http://localhost:5000/api/v1/auth/register',{name:username,email:email,password:password})
+    .then((res)=>{
+      setToken(res.data.token)
+      setName(res.data.user.name)
+      setIsLoading(false)
+    })
+    .catch((err)=>{console.log(err)})
   };
 
   const handleSignin = () => {
-    // Implement signin logic here
-    console.log('Signin:', email, password);
+    setIsLoading(true)
+    axios.post('http://localhost:5000/api/v1/auth/login',{email:email,password:password})
+    .then((res)=>{
+      localStorage.setItem('token',res.data.token)
+      localStorage.setItem('username',res.data.user.name)
+      setToken(res.data.token)
+      setName(res.data.user.name)
+      setIsLoading(false)
+    })
+    .catch((err)=>{console.log(err)})
   };
 
   return (
+    isLoading?
+    <LoadingPage/>:
     <div className="auth-page">
       <div className="auth-container">
         <h2 className="auth-title">JournalPlus</h2>

@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/CreateEventForm.css';
 
 const EditEventForm = ({ isOpen, onClose, onCreate, event}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
+  useEffect(
+    ()=>{
+      setTitle(event.title);
+      setDescription(event.description);
+    },[event]
+  )
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Call the onCreate function and pass the event data
     onCreate({ title, description });
-    // Clear form fields
-    setTitle('');
-    setDescription('');
     onClose();
   };
 
@@ -27,17 +30,17 @@ const EditEventForm = ({ isOpen, onClose, onCreate, event}) => {
           <input
             type="text"
             placeholder="Title"
-            value={event.title}
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
           <textarea
             placeholder="Description"
-            value={event.description}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <div className="form-buttons">
-            <button type="submit">Create</button>
+            <button type="submit">Edit</button>
             <button type="button" onClick={onClose}>Cancel</button>
           </div>
         </form>

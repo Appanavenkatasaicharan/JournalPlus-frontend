@@ -1,19 +1,24 @@
 import 'react-calendar/dist/Calendar.css';
 import '../styles/CalendarPage.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import CreateEventForm from './CreateEventForm';
 import EditEventForm from './EditEventForm';
+import LoadingPage from './LoadingPage';
+import axios from 'axios';
 
 
-const CalendarPage = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const CalendarPage = ({token}) => {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  const [selectedDate, setSelectedDate] = useState(date);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [isLoading,setIsLoading] = useState(true)
 
 
   const handleFormOpen = () => {
@@ -23,8 +28,14 @@ const CalendarPage = () => {
     setIsFormOpen(false);
   };
   const handleCreateEvent = (eventData) => {
-    // Implement event creation logic here
-    console.log('Event Data:', eventData);
+    setIsLoading(true)
+    axios.post(`http://localhost:5000/api/v1/calendar/events`,{...eventData,eventDate:selectedDate},{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      getAllEvents()
+    })
+    .catch((err)=>console.log(err))
   };
 
 
@@ -36,30 +47,66 @@ const CalendarPage = () => {
     setIsEditFormOpen(false);
   };
   const handleEditEvent = (eventData) => {
-    // Implement event creation logic here
-    console.log('Event Data:', eventData);
+    setIsLoading(true)
+    axios.put(`http://localhost:5000/api/v1/calendar/events/${selectedEvent._id}`,{...eventData},{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      getAllEvents()
+    })
+    .catch((err)=>console.log(err))
   };
 
+  const [events,setEvents] = useState([])
+  const getAllEvents = ()=>{
+    axios.get(`http://localhost:5000/api/v1/calendar/events/${selectedDate.toISOString()}`,{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      setEvents(res.data.events)
+      setIsLoading(false)
+    })
+    .catch((err)=>console.log(err))
+  }
 
-  // Example data, replace with your actual event data
-  const events = [
-    { title: 'Meeting', description: 'Discuss project updates' },
-    { title: 'Lunch', description: 'Meet with colleagues' },
-    { title: 'Lunch', description: 'Meet with colleagues' },
-    { title: 'Lunch', description: 'Meet with colleagues' },
-    { title: 'Lunch', description: 'Meet with colleagues' },
-    { title: 'Lunch', description: 'Meet with colleagues' },
-    // ...
-  ];
+  const deleteEvent = (event)=>{
+    setIsLoading(true)
+    axios.delete(`http://localhost:5000/api/v1/calendar/events/${event._id}`,{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      getAllEvents()
+    })
+    .catch((err)=>console.log(err))
+  }
+ 
+  useEffect(
+    ()=>{
+      getAllEvents()
+    },[selectedDate]
+  )
 
-  const deadlines = [
-    { title: 'Project Deadline', time: '5:00 PM' },
-    { title: 'Assignment Due', time: '11:59 PM' },
-    // ...
-  ];
+  const [deadlines,setDeadlines] = useState([])
+  // const getAllDeadlines = ()=>{
+  //   axios.get(`http://localhost:5000/api/v1/calendar/deadlines/${selectedDate.toISOString()}`,{headers:{
+  //     Authorization : `Bearer ${token}`
+  //   }})
+  //   .then((res)=>{
+  //     setDeadlines(res.data.events)
+  //   })
+  //   .catch((err)=>console.log(err))
+  // }
+ 
+  // useEffect(
+  //   ()=>{
+  //     getAllDeadlines()
+  //   },[]
+  // )
 
 
   return (
+    (isLoading)?
+    <LoadingPage />:
     <div className="calendar-page">
       <div className="calendar-container">
         <Calendar
@@ -81,7 +128,7 @@ const CalendarPage = () => {
           {events.map((event, index) => (
             <li key={index} className="event-item">
               <div className="event-icons">
-                <FontAwesomeIcon icon={faTrash} className="trash-icon" />
+                <FontAwesomeIcon icon={faTrash} className="trash-icon" onClick={()=>deleteEvent(event)} />
                 <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={()=>handleEditFormOpen(event)} />
               </div>
               <h3>{event.title}</h3>
@@ -89,7 +136,7 @@ const CalendarPage = () => {
             </li>
           ))}
         </ul>
-        <div className="deadline-list">
+        {/* <div className="deadline-list">
         <h2 className="deadlines-header">
             Deadlines
           </h2>
@@ -102,7 +149,7 @@ const CalendarPage = () => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

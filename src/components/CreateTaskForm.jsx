@@ -6,9 +6,7 @@ const CreateTaskForm = ({ isOpen, onClose, onCreate }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Call the onCreate function and pass the task body
     onCreate({ body: taskBody });
-    // Clear the form field
     setTaskBody('');
     onClose();
   };

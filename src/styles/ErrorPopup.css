@@ -1,0 +1,43 @@
+.error-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(44, 44, 45, 0.3); /* Semi-transparent blue overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it's above other content */
+  }
+  
+  .popup-content {
+    background-color: #ffffff; /* White background for the popup */
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.2); /* Blue box shadow for depth */
+  }
+  
+  h2 {
+    color: #0074e4; /* Blue title text color */
+  }
+  
+  p {
+    color: #333333; /* Dark gray message text color */
+  }
+  
+  .ok-button {
+    background-color: #0074e4; /* Blue button background color */
+    color: #ffffff; /* White button text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .ok-button:hover {
+    background-color: #0055aa; /* Darker blue on hover */
+  }
+  

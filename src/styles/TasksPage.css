@@ -87,3 +87,14 @@
     color: white; /* Icon color */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+  .no-tasks-message {
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Increased padding */
+    text-align: center;
+    max-width: 90%; /* Limit the width of the message */
+    background-color: #f0f0f0; /* Background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    color: #3498db; 
+    font-weight: bold; 
+  }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
@@ -8,18 +8,15 @@ import TasksPage from './components/TasksPage';
 import AuthPage from './components/AuthPage';
 
 function App() {
-  // useEffect(
-  //   ()=>{
-  //     localStorage.setItem('token',null)
-  //     localStorage.setItem('username',null)
-  //   },[]
-  // )
-  const [token,setToken] = useState(localStorage.getItem('token'));
-  const [username,setUsername] = useState(localStorage.getItem('username'));
+  // Obtain auth token and username from the session storage.
+  const [token,setToken] = useState(sessionStorage.getItem('token'));
+  const [username,setUsername] = useState(sessionStorage.getItem('username'));
   return (
-      (!token)?
-      <AuthPage setToken={setToken} setName={setUsername} /> :
-      <div className="app-container">
+
+      (!token)? // Load signin page if token is not present
+      <AuthPage setToken={setToken} setName={setUsername} /> : // My signin and signup form
+      // Else load the app.
+      <div className="app-container"> 
       <Router>
       <Sidebar username={username} setToken={setToken} setUserName={setUsername} />
       <div className='content-container'>

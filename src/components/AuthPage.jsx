@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../styles/AuthPage.css';
 import LoadingPage from './LoadingPage';
+import ErrorPopup from './ErrorPopup';
 
 const AuthPage = ({setToken,setName}) => {
   const [isSignup, setIsSignup] = useState(true); // Tracks whether to show signup or signin form
@@ -9,6 +10,20 @@ const AuthPage = ({setToken,setName}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false)
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  
+    // Function to open the error popup
+    const openErrorPopup = (message) => {
+      setErrorMessage(message);
+      setShowError(true);
+    };
+    // Function to close the error popup
+    const closeErrorPopup = () => {
+      setShowError(false);
+      setErrorMessage('');
+    };
 
   const handleFormSwitch = () => {
     setIsSignup(!isSignup);
@@ -18,24 +33,32 @@ const AuthPage = ({setToken,setName}) => {
     setIsLoading(true)
     axios.post('http://localhost:5000/api/v1/auth/register',{name:username,email:email,password:password})
     .then((res)=>{
+      sessionStorage.setItem('token',res.data.token)
+      sessionStorage.setItem('username',res.data.user.name)
       setToken(res.data.token)
       setName(res.data.user.name)
       setIsLoading(false)
     })
-    .catch((err)=>{console.log(err)})
+    .catch((err)=>{
+      openErrorPopup('You need to provide all the credentials.')
+      setIsLoading(false)
+    })
   };
 
   const handleSignin = () => {
     setIsLoading(true)
     axios.post('http://localhost:5000/api/v1/auth/login',{email:email,password:password})
     .then((res)=>{
-      localStorage.setItem('token',res.data.token)
-      localStorage.setItem('username',res.data.user.name)
+      sessionStorage.setItem('token',res.data.token)
+      sessionStorage.setItem('username',res.data.user.name)
       setToken(res.data.token)
       setName(res.data.user.name)
       setIsLoading(false)
     })
-    .catch((err)=>{console.log(err)})
+    .catch((err)=>{
+      openErrorPopup('Invaid credentials')
+      setIsLoading(false)
+    })
   };
 
   return (
@@ -63,6 +86,7 @@ const AuthPage = ({setToken,setName}) => {
           </div>
         )}
       </div>
+      <ErrorPopup showError={showError} message={errorMessage} onClose={closeErrorPopup} />
     </div>
   );
 };

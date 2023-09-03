@@ -6,12 +6,33 @@ import '../styles/TasksPage.css';
 import EditTaskForm from './EditTaskForm';
 import axios from 'axios';
 import LoadingPage from './LoadingPage';
+import SetDeadlineForm from './SetDeadlineForm';
 
 const TasksPage = ({token}) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [selectedTask,setSelectedTask] = useState({});
   const [isLoading,setIsLoading] = useState(true)
+  const [isDeadlineFormOpen, setIsDeadlineFormOpen] = useState(false);
+
+  const openDeadlineForm = (task) => {
+    setSelectedTask(task)
+    setIsDeadlineFormOpen(true);
+  };
+  const closeDeadlineForm = () => {
+    setIsDeadlineFormOpen(false);
+  };
+  const saveDeadline = (date) => {
+    setIsLoading(true)
+    date = new Date(date).toISOString()
+    axios.post(`http://localhost:5000/api/v1/calendar/deadlines`,{deadlineDate:date,associatedTaskId:selectedTask._id},{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      setIsLoading(false)
+    })
+    .catch(err=>console.log(err))
+  };
 
   const handleFormOpen = () => {
     setIsFormOpen(true);
@@ -90,7 +111,9 @@ const TasksPage = ({token}) => {
     <div className="tasks-page">
       <div className="tasks-container">
         <h2 className="tasks-heading">My Tasks</h2>
-        {tasks.map((task, index) => (
+        {
+        (tasks.length!==0)?
+        tasks.map((task, index) => (
           <div key={index} className={`task-item ${task.completed ? 'completed' : ''}`}>
             <div className="checkbox" onClick={() => handleCheckboxClick(task)}>
               <FontAwesomeIcon icon={task.completed ? faCheckCircle : faCircle} />
@@ -98,19 +121,24 @@ const TasksPage = ({token}) => {
             <div className="task-details">
               <h3>{task.body}</h3>
               <div className="icons">
-                <FontAwesomeIcon icon={faCalendar} className="icon" />
+                <FontAwesomeIcon icon={faCalendar} className="icon" onClick={()=>openDeadlineForm(task)} />
                 <FontAwesomeIcon icon={faEdit} className="icon" onClick={()=>handleEditFormOpen(task)} />
                 <FontAwesomeIcon icon={faTrash} className="icon" onClick={()=>deleteTask(task)} />
               </div>
             </div>
           </div>
-        ))}
+        )):
+        <h2 class="no-tasks-message">
+          There are no tasks.
+        </h2>
+      }
       </div>
       <div className="add-task-button" onClick={handleFormOpen}>
         <FontAwesomeIcon icon={faPlus} />
       </div>
       <EditTaskForm isOpen={isEditFormOpen} onClose={handleEditFormClose} onCreate={handleEditTask} task={selectedTask}/>
       <CreateTaskForm isOpen={isFormOpen} onClose={handleFormClose} onCreate={handleCreateTask} />
+      <SetDeadlineForm showDeadlineForm={isDeadlineFormOpen} onClose={closeDeadlineForm} onSave={saveDeadline} task={selectedTask} />
     </div>
   );
 };

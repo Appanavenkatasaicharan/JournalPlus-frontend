@@ -149,3 +149,17 @@
   padding: 5px;
   cursor: pointer;
 }
+
+.no-events-message {
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  width: 90%; /* Limit the width of the message */
+  background-color: #ffffff; /* Background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  font-weight: bold; /* Optionally, make the text bold */
+
+  /* Center the message both horizontally and vertically */
+  /* margin-top: 50%;
+  margin-left: 50%; */
+}

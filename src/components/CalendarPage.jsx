@@ -9,6 +9,8 @@ import CreateEventForm from './CreateEventForm';
 import EditEventForm from './EditEventForm';
 import LoadingPage from './LoadingPage';
 import axios from 'axios';
+import ErrorPopup from './ErrorPopup';
+import _isEqual from 'lodash/isEqual'
 
 
 const CalendarPage = ({token}) => {
@@ -19,7 +21,20 @@ const CalendarPage = ({token}) => {
   const [selectedEvent, setSelectedEvent] = useState({});
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [isLoading,setIsLoading] = useState(true)
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
+  
+    // Function to open the error popup
+    const openErrorPopup = (message) => {
+      setErrorMessage(message);
+      setShowError(true);
+    };
+    // Function to close the error popup
+    const closeErrorPopup = () => {
+      setShowError(false);
+      setErrorMessage('');
+    };
 
   const handleFormOpen = () => {
     setIsFormOpen(true);
@@ -35,7 +50,10 @@ const CalendarPage = ({token}) => {
     .then((res)=>{
       getAllEvents()
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=>{
+        openErrorPopup('Please provide a title.')
+        setIsLoading(false)
+    })
   };
 
 
@@ -54,7 +72,10 @@ const CalendarPage = ({token}) => {
     .then((res)=>{
       getAllEvents()
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=>{
+        openErrorPopup('Please provide a title.')
+        setIsLoading(false)
+    })
   };
 
   const [events,setEvents] = useState([])
@@ -77,7 +98,10 @@ const CalendarPage = ({token}) => {
     .then((res)=>{
       getAllEvents()
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=>{
+        openErrorPopup('Something went wrong... Please try again')
+        setIsLoading(false)
+    })
   }
  
   useEffect(
@@ -86,22 +110,63 @@ const CalendarPage = ({token}) => {
     },[selectedDate]
   )
 
-  const [deadlines,setDeadlines] = useState([])
-  // const getAllDeadlines = ()=>{
-  //   axios.get(`http://localhost:5000/api/v1/calendar/deadlines/${selectedDate.toISOString()}`,{headers:{
-  //     Authorization : `Bearer ${token}`
-  //   }})
-  //   .then((res)=>{
-  //     setDeadlines(res.data.events)
-  //   })
-  //   .catch((err)=>console.log(err))
-  // }
- 
-  // useEffect(
-  //   ()=>{
-  //     getAllDeadlines()
-  //   },[]
-  // )
+  const [tasks, setTasks] = useState([]);
+  const getAllTasks = ()=>{
+    axios.get('http://localhost:5000/api/v1/tasks',{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      setTasks(res.data.tasks);
+    })
+    .catch(err=>console.log(err))
+  }
+  const [deadlines, setDeadlines] = useState([]);
+  const getAllDeadlines = async () => {
+    try {
+      // Fetch tasks first
+      const tasksResponse = await axios.get('http://localhost:5000/api/v1/tasks', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const tasks = tasksResponse.data.tasks;
+  
+      // Then fetch deadlines
+      const deadlinesResponse = await axios.get('http://localhost:5000/api/v1/calendar/deadlines', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const tempDeadlines = deadlinesResponse.data.deadlines;
+  
+      // Map deadlines to include associated tasks
+      const newTempDeadlines = tempDeadlines.map((deadline) => {
+        const associatedTask = tasks.find((task) => _isEqual(deadline.associatedTaskId, task._id));
+        return { ...deadline, body: associatedTask ? associatedTask.body : '' };
+      });
+  
+      setDeadlines(newTempDeadlines);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+  useEffect(() => {
+    getAllDeadlines();
+  }, []);
+  
+
+  const deleteDeadline = (deadline)=>{
+    setIsLoading(true)
+    axios.delete(`http://localhost:5000/api/v1/calendar/deadlines/${deadline._id}`,{headers:{
+      Authorization : `Bearer ${token}`
+    }})
+    .then((res)=>{
+      getAllDeadlines()
+    })
+    .catch(err=>console.log(err))
+  }
 
 
   return (
@@ -117,7 +182,7 @@ const CalendarPage = ({token}) => {
       </div>
       <div className="event-list">
         <div className="event-list-header">
-          <h2>Events for {selectedDate.toDateString()}</h2>
+          <h2>Events for {selectedDate.toDateString().substring(4)}</h2>
           <button className="add-event-button" onClick={handleFormOpen}>
           <FontAwesomeIcon icon={faPlus} /> Add Event
       </button>
@@ -125,7 +190,9 @@ const CalendarPage = ({token}) => {
         <CreateEventForm isOpen={isFormOpen} onClose={handleFormClose} onCreate={handleCreateEvent} />
         </div>
         <ul>
-          {events.map((event, index) => (
+          {
+          (events.length!==0)?
+          events.map((event, index) => (
             <li key={index} className="event-item">
               <div className="event-icons">
                 <FontAwesomeIcon icon={faTrash} className="trash-icon" onClick={()=>deleteEvent(event)} />
@@ -134,23 +201,34 @@ const CalendarPage = ({token}) => {
               <h3>{event.title}</h3>
               <p>{event.description}</p>
             </li>
-          ))}
+          )):
+          <h2 className="no-events-message">
+          There are no events.
+          </h2>
+        }
         </ul>
-        {/* <div className="deadline-list">
+        <div className="deadline-list">
         <h2 className="deadlines-header">
             Deadlines
           </h2>
           <ul className="deadline-items">
-            {deadlines.map((deadline, index) => (
+            {
+            deadlines.length!==0?
+            deadlines.map((deadline, index) => (
               <li key={index} className="deadline-item">
-                <FontAwesomeIcon icon={faTrash} className="trash-icon" />
-                <h3>{deadline.title}</h3>
-                <p>Time: {deadline.time}</p>
+                <FontAwesomeIcon icon={faTrash} className="trash-icon" onClick={()=>deleteDeadline(deadline)} />
+                <h3>{deadline.body}</h3>
+                <h4>{`${new Date(deadline.deadlineDate).getDate()} ${new Date(deadline.deadlineDate).toLocaleString('default', { month: 'short' })}`}</h4>
               </li>
-            ))}
+            )):
+            <h2 className="no-events-message">
+          There are no upcoming deadlines.
+          </h2>
+            }
           </ul>
-        </div> */}
+        </div>
       </div>
+      <ErrorPopup showError={showError} message={errorMessage} onClose={closeErrorPopup} />
     </div>
   );
 };

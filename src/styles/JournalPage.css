@@ -1,42 +1,21 @@
 /* JournalPage.css */
 .journal-page {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px;
 }
 
 .journal-entry {
+  position: relative;
   border: 1px solid #ccc;
   padding: 15px;
   border-radius: 8px;
+  max-width: 1fr;
   transition: background-color 0.3s, color 0.3s;
+ 
 }
 
-.journal-entry.Happy {
-  background-color: #eafedb; /* Light green for Happy mood */
-  color: #2c3e50;
-}
-
-.journal-entry.Sad {
-  background-color: #f0e2e1; /* Light pink for Sad mood */
-  color: #c0392b;
-}
-
-.journal-entry.Excited {
-  background-color: #f9e79f; /* Light yellow for Excited mood */
-  color: #d35400;
-}
-
-.journal-entry.Depressed {
-  background-color: #d7dbdd; /* Light gray for Depressed mood */
-  color: #34495e;
-}
-
-.journal-entry.Anxious {
-  background-color: #ebdef0; /* Light purple for Anxious mood */
-  color: #8e44ad;
-}
 
 .entry-header {
   display: flex;
@@ -64,20 +43,29 @@
   font-size: 14px;
 }
 
-/* JournalPage.css */
-.journal-page {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 20px;
+.Happy {
+  background-color: #eafedb; /* Light green for Happy mood */
+  color: #2c3e50;
 }
 
-.journal-entry {
-  position: relative; /* For positioning the icons */
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s;
+.Sad {
+  background-color: #f0e2e1; /* Light pink for Sad mood */
+  color: #c0392b;
+}
+
+.Excited {
+  background-color: #f9e79f; /* Light yellow for Excited mood */
+  color: #d35400;
+}
+
+.Depressed {
+  background-color: #d7dbdd; /* Light gray for Depressed mood */
+  color: #34495e;
+}
+
+.Anxious {
+  background-color: #ebdef0; /* Light purple for Anxious mood */
+  color: #8e44ad;
 }
 
 /* Mood-specific styling (keep as before) */
@@ -113,6 +101,7 @@
 .entry-description {
   margin-top: 5px;
   font-size: 14px;
+  max-width: 100%;
 }
 
 .icon-container {
@@ -253,4 +242,19 @@ padding: 10px 20px;
 border-radius: 3px;
 cursor: pointer;
 margin-left: 10px;
+}
+
+.no-message {
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  width: 90%; /* Limit the width of the message */
+  background-color: #f0f0f0; /* Background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  color: #3498db; /* Text color that fits your theme */
+  font-weight: bold; /* Optionally, make the text bold */
+
+  /* Center the message both horizontally and vertically */
+  margin-top: 50%;
+  margin-left: 50%;
 }

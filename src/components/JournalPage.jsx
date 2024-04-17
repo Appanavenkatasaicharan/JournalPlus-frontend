@@ -41,7 +41,7 @@ const JournalPage = ({token}) => {
   // When the data in creation form is submitted.
   const handleFormSubmit = (formData) => {
     setIsLoading(true)
-    axios.post('http://localhost:5000/api/v1/journals',formData,{headers:{
+    axios.post('https://journal-plus-backend.vercel.app/api/v1/journals',formData,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllEntries()})
@@ -66,7 +66,7 @@ const JournalPage = ({token}) => {
   // When edit form is submitted
   const handleEditFormSubmit = (formData) => {
     setIsLoading(true)
-    axios.put(`http://localhost:5000/api/v1/journals/${selectedJournal._id}`,formData,{headers:{
+    axios.put(`https://journal-plus-backend.vercel.app/api/v1/journals/${selectedJournal._id}`,formData,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllEntries()})
@@ -80,7 +80,7 @@ const JournalPage = ({token}) => {
   // Delete a journal
   const deleteJournal = (journal)=>{
     setIsLoading(true)
-    axios.delete(`http://localhost:5000/api/v1/journals/${journal._id}`,{headers:{
+    axios.delete(`https://journal-plus-backend.vercel.app/api/v1/journals/${journal._id}`,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllEntries()})
@@ -93,7 +93,7 @@ const JournalPage = ({token}) => {
   // Initial loading
   const [journalEntries,setJournalEntries] = useState([])
   const getAllEntries = ()=>{
-    axios.get('http://localhost:5000/api/v1/journals',{headers:{
+    axios.get('https://journal-plus-backend.vercel.app/api/v1/journals',{headers:{
         Authorization : `Bearer ${token}`
       }})
       .then((res)=>{

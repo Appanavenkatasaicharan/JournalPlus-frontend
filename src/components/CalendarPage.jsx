@@ -44,7 +44,7 @@ const CalendarPage = ({token}) => {
   };
   const handleCreateEvent = (eventData) => {
     setIsLoading(true)
-    axios.post(`http://localhost:5000/api/v1/calendar/events`,{...eventData,eventDate:selectedDate},{headers:{
+    axios.post(`https://journal-plus-backend.vercel.app/api/v1/calendar/events`,{...eventData,eventDate:selectedDate},{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -66,7 +66,7 @@ const CalendarPage = ({token}) => {
   };
   const handleEditEvent = (eventData) => {
     setIsLoading(true)
-    axios.put(`http://localhost:5000/api/v1/calendar/events/${selectedEvent._id}`,{...eventData},{headers:{
+    axios.put(`https://journal-plus-backend.vercel.app/api/v1/calendar/events/${selectedEvent._id}`,{...eventData},{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -80,7 +80,7 @@ const CalendarPage = ({token}) => {
 
   const [events,setEvents] = useState([])
   const getAllEvents = ()=>{
-    axios.get(`http://localhost:5000/api/v1/calendar/events/${selectedDate.toISOString()}`,{headers:{
+    axios.get(`https://journal-plus-backend.vercel.app/api/v1/calendar/events/${selectedDate.toISOString()}`,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -92,7 +92,7 @@ const CalendarPage = ({token}) => {
 
   const deleteEvent = (event)=>{
     setIsLoading(true)
-    axios.delete(`http://localhost:5000/api/v1/calendar/events/${event._id}`,{headers:{
+    axios.delete(`https://journal-plus-backend.vercel.app/api/v1/calendar/events/${event._id}`,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -112,7 +112,7 @@ const CalendarPage = ({token}) => {
 
   const [tasks, setTasks] = useState([]);
   const getAllTasks = ()=>{
-    axios.get('http://localhost:5000/api/v1/tasks',{headers:{
+    axios.get('https://journal-plus-backend.vercel.app/api/v1/tasks',{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -124,7 +124,7 @@ const CalendarPage = ({token}) => {
   const getAllDeadlines = async () => {
     try {
       // Fetch tasks first
-      const tasksResponse = await axios.get('http://localhost:5000/api/v1/tasks', {
+      const tasksResponse = await axios.get('https://journal-plus-backend.vercel.app/api/v1/tasks', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -132,7 +132,7 @@ const CalendarPage = ({token}) => {
       const tasks = tasksResponse.data.tasks;
   
       // Then fetch deadlines
-      const deadlinesResponse = await axios.get('http://localhost:5000/api/v1/calendar/deadlines', {
+      const deadlinesResponse = await axios.get('https://journal-plus-backend.vercel.app/api/v1/calendar/deadlines', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -159,7 +159,7 @@ const CalendarPage = ({token}) => {
 
   const deleteDeadline = (deadline)=>{
     setIsLoading(true)
-    axios.delete(`http://localhost:5000/api/v1/calendar/deadlines/${deadline._id}`,{headers:{
+    axios.delete(`https://journal-plus-backend.vercel.app/api/v1/calendar/deadlines/${deadline._id}`,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{

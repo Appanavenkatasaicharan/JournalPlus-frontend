@@ -31,7 +31,7 @@ const AuthPage = ({setToken,setName}) => {
 
   const handleSignup = () => {
     setIsLoading(true)
-    axios.post('http://localhost:5000/api/v1/auth/register',{name:username,email:email,password:password})
+    axios.post('https://journal-plus-backend.vercel.app/api/v1/auth/register',{name:username,email:email,password:password})
     .then((res)=>{
       sessionStorage.setItem('token',res.data.token)
       sessionStorage.setItem('username',res.data.user.name)
@@ -47,7 +47,7 @@ const AuthPage = ({setToken,setName}) => {
 
   const handleSignin = () => {
     setIsLoading(true)
-    axios.post('http://localhost:5000/api/v1/auth/login',{email:email,password:password})
+    axios.post('https://journal-plus-backend.vercel.app/api/v1/auth/login',{email:email,password:password})
     .then((res)=>{
       sessionStorage.setItem('token',res.data.token)
       sessionStorage.setItem('username',res.data.user.name)

@@ -25,7 +25,7 @@ const TasksPage = ({token}) => {
   const saveDeadline = (date) => {
     setIsLoading(true)
     date = new Date(date).toISOString()
-    axios.post(`http://localhost:5000/api/v1/calendar/deadlines`,{deadlineDate:date,associatedTaskId:selectedTask._id},{headers:{
+    axios.post(`https://journal-plus-backend.vercel.app/api/v1/calendar/deadlines`,{deadlineDate:date,associatedTaskId:selectedTask._id},{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -42,7 +42,7 @@ const TasksPage = ({token}) => {
   };
   const handleCreateTask = (taskData) => {
     setIsLoading(true)
-    axios.post('http://localhost:5000/api/v1/tasks',taskData,{headers:{
+    axios.post('https://journal-plus-backend.vercel.app/api/v1/tasks',taskData,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllTasks()})
@@ -59,7 +59,7 @@ const TasksPage = ({token}) => {
   };
   const handleEditTask = (taskData) => {
     setIsLoading(true)
-    axios.put(`http://localhost:5000/api/v1/tasks/${selectedTask._id}`,taskData,{headers:{
+    axios.put(`https://journal-plus-backend.vercel.app/api/v1/tasks/${selectedTask._id}`,taskData,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllTasks()})
@@ -72,7 +72,7 @@ const TasksPage = ({token}) => {
   const [tasks, setTasks] = useState([]);
 
   const getAllTasks = ()=>{
-    axios.get('http://localhost:5000/api/v1/tasks',{headers:{
+    axios.get('https://journal-plus-backend.vercel.app/api/v1/tasks',{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{
@@ -89,7 +89,7 @@ const TasksPage = ({token}) => {
   )
 
   const handleCheckboxClick = (task) => {
-    axios.put(`http://localhost:5000/api/v1/tasks/${task._id}`,{completed:!task.completed},{headers:{
+    axios.put(`https://journal-plus-backend.vercel.app/api/v1/tasks/${task._id}`,{completed:!task.completed},{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllTasks()})
@@ -98,7 +98,7 @@ const TasksPage = ({token}) => {
 
   const deleteTask = (task)=>{
     setIsLoading(true)
-    axios.delete(`http://localhost:5000/api/v1/tasks/${task._id}`,{headers:{
+    axios.delete(`https://journal-plus-backend.vercel.app/api/v1/tasks/${task._id}`,{headers:{
       Authorization : `Bearer ${token}`
     }})
     .then((res)=>{getAllTasks()})
